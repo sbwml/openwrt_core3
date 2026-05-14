@@ -1250,6 +1250,7 @@
     "luci-app-sms-tool-js": "2.0.24-r1",
     "luci-i18n-3ginfo-lite-zh-cn": "26.017.60897~6481f6f",
     "luci-i18n-modemband-zh-cn": "26.017.60897~6481f6f",
+    "luci-i18n-oaf-zh-cn": "26.133.69341~a64ba6b",
     "luci-i18n-sms-tool-js-zh-cn": "26.017.60897~6481f6f",
     "luci-proto-quectel": "26.017.60897~6481f6f",
     "modemband": "20240616-r1",
