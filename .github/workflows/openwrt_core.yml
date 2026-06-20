@@ -37,28 +37,27 @@ jobs:
         kmod=$(curl -sk "https://api.github.com/repos/sbwml/builder/releases/tags/openwrt-25.12" | grep "browser_download_url" | grep "$TARGET_ENV" | grep -v -- "-rc" | sort -V | tail -1 | awk '{print $2}' | sed 's/\"//g')
         if [ -n "$kmod" ]; then
           kmod_name=$(basename $kmod | sed 's/\.tar\.gz$//;s/^[^-]*-//')
-          DIR_PATH="$BASE_PATH/$kmod_name"
+          curl -L $kmod -o "$kmod_name.tar.gz" --progress-bar
           
-          if [ -d "$DIR_PATH" ]; then
-            echo "x86_64 target version $kmod_name already exists. Skipping."
-          else
-            curl -L $kmod -o "$kmod_name.tar.gz" --progress-bar
-            
-            mkdir -p tmp_x86
-            tar zxf "$kmod_name.tar.gz" -C tmp_x86
-            
-            INNER_DIR=$(ls -d tmp_x86/* 2>/dev/null | head -n 1)
-            if [ -d "$INNER_DIR" ]; then
-              mv "$INNER_DIR" "$DIR_PATH"
+          mkdir -p tmp_x86
+          tar zxf "$kmod_name.tar.gz" -C tmp_x86
+          
+          INNER_NAME=$(ls tmp_x86 2>/dev/null | head -n 1)
+          if [ -n "$INNER_NAME" ]; then
+            DIR_PATH="$BASE_PATH/$INNER_NAME"
+            if [ -d "$DIR_PATH" ]; then
+              echo "x86_64 target version $INNER_NAME already exists. Skipping."
+              rm -rf tmp_x86 "$kmod_name.tar.gz"
             else
-              mkdir -p "$DIR_PATH"
-              mv tmp_x86/* "$DIR_PATH/" 2>/dev/null || true
+              mv "tmp_x86/$INNER_NAME" "$DIR_PATH"
+              rm -rf tmp_x86 "$kmod_name.tar.gz"
+              
+              if [ -n "$(git status --porcelain "$DIR_PATH")" ]; then
+                echo "x86_64($INNER_NAME)" >> commit_msg.txt
+              fi
             fi
+          else
             rm -rf tmp_x86 "$kmod_name.tar.gz"
-            
-            if [ -n "$(git status --porcelain "$DIR_PATH")" ]; then
-              echo "x86_64($kmod_name)" >> commit_msg.txt
-            fi
           fi
         fi
 
@@ -72,28 +71,27 @@ jobs:
         kmod=$(curl -sk "https://api.github.com/repos/sbwml/builder/releases/tags/openwrt-25.12" | grep "browser_download_url" | grep "$TARGET_ENV" | grep -v -- "-rc" | sort -V | tail -1 | awk '{print $2}' | sed 's/\"//g')
         if [ -n "$kmod" ]; then
           kmod_name=$(basename $kmod | sed 's/\.tar\.gz$//;s/^[^-]*-//')
-          DIR_PATH="$BASE_PATH/$kmod_name"
+          curl -L $kmod -o "$kmod_name.tar.gz" --progress-bar
           
-          if [ -d "$DIR_PATH" ]; then
-            echo "armsr target version $kmod_name already exists. Skipping."
-          else
-            curl -L $kmod -o "$kmod_name.tar.gz" --progress-bar
-            
-            mkdir -p tmp_armsr
-            tar zxf "$kmod_name.tar.gz" -C tmp_armsr
-            
-            INNER_DIR=$(ls -d tmp_armsr/* 2>/dev/null | head -n 1)
-            if [ -d "$INNER_DIR" ]; then
-              mv "$INNER_DIR" "$DIR_PATH"
+          mkdir -p tmp_armsr
+          tar zxf "$kmod_name.tar.gz" -C tmp_armsr
+          
+          INNER_NAME=$(ls tmp_armsr 2>/dev/null | head -n 1)
+          if [ -n "$INNER_NAME" ]; then
+            DIR_PATH="$BASE_PATH/$INNER_NAME"
+            if [ -d "$DIR_PATH" ]; then
+              echo "armsr target version $INNER_NAME already exists. Skipping."
+              rm -rf tmp_armsr "$kmod_name.tar.gz"
             else
-              mkdir -p "$DIR_PATH"
-              mv tmp_armsr/* "$DIR_PATH/" 2>/dev/null || true
+              mv "tmp_armsr/$INNER_NAME" "$DIR_PATH"
+              rm -rf tmp_armsr "$kmod_name.tar.gz"
+              
+              if [ -n "$(git status --porcelain "$DIR_PATH")" ]; then
+                echo "armsr($INNER_NAME)" >> commit_msg.txt
+              fi
             fi
+          else
             rm -rf tmp_armsr "$kmod_name.tar.gz"
-            
-            if [ -n "$(git status --porcelain "$DIR_PATH")" ]; then
-              echo "armsr($kmod_name)" >> commit_msg.txt
-            fi
           fi
         fi
 
@@ -107,28 +105,27 @@ jobs:
         kmod=$(curl -sk "https://api.github.com/repos/sbwml/builder/releases/tags/openwrt-25.12" | grep "browser_download_url" | grep "$TARGET_ENV" | grep -v -- "-rc" | sort -V | tail -1 | awk '{print $2}' | sed 's/\"//g')
         if [ -n "$kmod" ]; then
           kmod_name=$(basename $kmod | sed 's/\.tar\.gz$//;s/^[^-]*-//')
-          DIR_PATH="$BASE_PATH/$kmod_name"
+          curl -L $kmod -o "$kmod_name.tar.gz" --progress-bar
           
-          if [ -d "$DIR_PATH" ]; then
-            echo "rockchip target version $kmod_name already exists. Skipping."
-          else
-            curl -L $kmod -o "$kmod_name.tar.gz" --progress-bar
-            
-            mkdir -p tmp_rockchip
-            tar zxf "$kmod_name.tar.gz" -C tmp_rockchip
-            
-            INNER_DIR=$(ls -d tmp_rockchip/* 2>/dev/null | head -n 1)
-            if [ -d "$INNER_DIR" ]; then
-              mv "$INNER_DIR" "$DIR_PATH"
+          mkdir -p tmp_rockchip
+          tar zxf "$kmod_name.tar.gz" -C tmp_rockchip
+          
+          INNER_NAME=$(ls tmp_rockchip 2>/dev/null | head -n 1)
+          if [ -n "$INNER_NAME" ]; then
+            DIR_PATH="$BASE_PATH/$INNER_NAME"
+            if [ -d "$DIR_PATH" ]; then
+              echo "rockchip target version $INNER_NAME already exists. Skipping."
+              rm -rf tmp_rockchip "$kmod_name.tar.gz"
             else
-              mkdir -p "$DIR_PATH"
-              mv tmp_rockchip/* "$DIR_PATH/" 2>/dev/null || true
+              mv "tmp_rockchip/$INNER_NAME" "$DIR_PATH"
+              rm -rf tmp_rockchip "$kmod_name.tar.gz"
+              
+              if [ -n "$(git status --porcelain "$DIR_PATH")" ]; then
+                echo "rockchip($INNER_NAME)" >> commit_msg.txt
+              fi
             fi
+          else
             rm -rf tmp_rockchip "$kmod_name.tar.gz"
-            
-            if [ -n "$(git status --porcelain "$DIR_PATH")" ]; then
-              echo "rockchip($kmod_name)" >> commit_msg.txt
-            fi
           fi
         fi
 
