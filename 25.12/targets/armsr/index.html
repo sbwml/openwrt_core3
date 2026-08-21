@@ -1,45 +1,300 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Index of /25.12/targets/armsr/</title>
     <style>
-        body { font-family: Roboto, "Segoe UI", Arial, sans-serif; margin: 40px; color: #333; background-color: #fafafa; }
-        .container { background: #fff; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 24px; max-width: 1000px; margin: 0 auto; }
-        .breadcrumbs { font-size: 20px; color: #202124; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid #e0e0e0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 400; }
-        .breadcrumbs a { color: #1a73e8; text-decoration: none; display: inline !important; padding: 0; margin: 0; width: auto !important; }
-        .breadcrumbs a:hover { text-decoration: underline; }
-        .breadcrumbs span { color: #202124; display: inline !important; padding: 0; margin: 0; }
-        .breadcrumbs .separator { margin: 0 6px; color: #5f6368; font-weight: normal; user-select: none; display: inline !important; }
-        table { width: 100%; border-collapse: collapse; text-align: left; }
-        th, td { padding: 12px 16px; border-bottom: 1px solid #f0f0f0; }
-        th { font-weight: 500; color: #70757a; background-color: #f8f9fa; }
-        tr:hover { background-color: #f1f3f4; }
-        td a { color: #1a73e8; text-decoration: none; font-weight: 500; display: inline-block; width: 100%; }
-        td a:hover { text-decoration: underline; }
-        .parent-dir { font-weight: bold; color: #5f6368; }
-        .size, .date { color: #70757a; font-size: 14px; }
+        :root {
+            --bg-color: #fafafa;
+            --card-bg: #ffffff;
+            --text-main: #202124;
+            --text-sub: #5f6368;
+            --link-color: #1a73e8;
+            --border-color: #f0f0f0;
+            --hover-bg: #f8f9fa;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 12px 12px 0 12px;
+            color: var(--text-main); 
+            background-color: var(--bg-color); 
+            line-height: 1.5;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-content {
+            flex: 1 0 auto;
+            width: 100%;
+        }
+
+        .container { 
+            background: var(--card-bg); 
+            border-radius: 8px; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1); 
+            padding: 16px; 
+            max-width: 1000px; 
+            margin: 0 auto; 
+        }
+
+        .breadcrumbs-wrapper {
+            overflow-x: auto;
+            white-space: nowrap;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e0e0e0;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .breadcrumbs { 
+            font-size: 16px; 
+            color: var(--text-main); 
+            font-weight: 400; 
+            display: inline-block;
+        }
+
+        .breadcrumbs a { 
+            color: var(--link-color); 
+            text-decoration: none; 
+        }
+
+        .breadcrumbs a:hover { 
+            text-decoration: underline; 
+        }
+
+        .breadcrumbs .separator { 
+            margin: 0 4px; 
+            color: var(--text-sub); 
+            user-select: none; 
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            text-align: left; 
+            table-layout: fixed;
+        }
+
+        th, td { 
+            padding: 12px 8px; 
+            border-bottom: 1px solid var(--border-color); 
+            word-break: break-word;
+        }
+
+        th { 
+            font-weight: 600; 
+            color: var(--text-sub); 
+            background-color: #f8f9fa; 
+            font-size: 13px;
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.2s;
+        }
+
+        th:hover {
+            background-color: #e8eaed;
+            color: var(--text-main);
+        }
+
+        th::after {
+            content: ' ↕';
+            opacity: 0.3;
+            font-size: 11px;
+        }
+
+        th.asc::after {
+            content: ' ▲';
+            opacity: 1;
+            color: var(--link-color);
+        }
+
+        th.desc::after {
+            content: ' ▼';
+            opacity: 1;
+            color: var(--link-color);
+        }
+
+        tr:hover { 
+            background-color: var(--hover-bg); 
+        }
+
+        .col-name { width: 55%; }
+        .col-date { width: 25%; }
+        .col-size { width: 20%; }
+
+        td a { 
+            color: var(--link-color); 
+            text-decoration: none; 
+            font-weight: 500; 
+            display: block; 
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        td a:hover { 
+            text-decoration: underline; 
+        }
+
+        .parent-dir { 
+            font-weight: bold; 
+            color: var(--text-sub); 
+        }
+
+        .size, .date { 
+            color: var(--text-sub); 
+            font-size: 13px; 
+        }
+
+        .footer {
+            flex-shrink: 0;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 13px;
+            color: var(--text-sub);
+        }
+
+        .footer a {
+            color: var(--text-sub);
+            text-decoration: underline;
+        }
+
+        .footer a:hover {
+            color: var(--link-color);
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 8px 8px 0 8px;
+            }
+
+            .container {
+                padding: 12px;
+                border-radius: 6px;
+            }
+
+            .breadcrumbs {
+                font-size: 15px;
+            }
+
+            th, td {
+                padding: 10px 4px;
+            }
+
+            .col-date, .date {
+                display: none;
+            }
+
+            .col-name { width: 70%; }
+            .col-size { width: 30%; text-align: right; }
+            th.col-size { text-align: right; }
+
+            td a {
+                padding: 4px 0;
+            }
+
+            .footer {
+                padding: 16px 0;
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="breadcrumbs">
-        <a href="../../../">Index of</a><span class="separator">/</span><a href="../../">25.12</a><span class="separator">/</span><a href="../">targets</a><span class="separator">/</span><span>armsr</span><span class="separator">/</span>
+    <div class="main-content">
+        <div class="container">
+            <div class="breadcrumbs-wrapper">
+                <div class="breadcrumbs">
+                    <a href="../../../">Index of</a><span class="separator">/</span><a href="../../">25.12</a><span class="separator">/</span><a href="../">targets</a><span class="separator">/</span><span>armsr</span><span class="separator">/</span>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table id="file-table">
+                    <thead>
+                        <tr>
+                            <th class="col-name" onclick="sortTable(0, 'string')">Name</th>
+                            <th class="col-date" onclick="sortTable(1, 'number')">Last Modified</th>
+                            <th class="col-size" onclick="sortTable(2, 'number')">Size</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="col-name"><a class="parent-dir" href="../">📁 ..</a></td><td class="date" data-sort="0">-</td><td class="size" data-sort="-1">-</td></tr>
+                        <tr><td class="col-name" data-sort="0_armv8"><a href="armv8/">📂 armv8/</a></td><td class="date" data-sort="1787310190.2924955">2026-08-21 19:03</td><td class="size" data-sort="-1">-</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Last Modified</th>
-                <th>Size</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td><a class="parent-dir" href="../">📁 ..</a></td><td class="date">-</td><td class="size">-</td></tr>
-            <tr><td><a href="armv8/">📂 armv8/</a></td><td class="date">2026-08-21 10:23:19</td><td class="size">-</td></tr>
-        </tbody>
-    </table>
-</div>
+    <footer class="footer">
+        Powered by <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a> | Served by EdgeOne
+    </footer>
+    <script>
+        let sortDirections = [true, true, true];
+
+        function sortTable(colIndex, type) {
+            const table = document.getElementById("file-table");
+            const tbody = table.querySelector("tbody");
+            const rows = Array.from(tbody.querySelectorAll("tr"));
+            const headers = table.querySelectorAll("th");
+
+            let parentRow = null;
+            if (rows.length > 0 && rows[0].querySelector(".parent-dir")) {
+                parentRow = rows.shift();
+            }
+
+            const isAscending = sortDirections[colIndex];
+            sortDirections[colIndex] = !isAscending;
+
+            headers.forEach((h, idx) => {
+                if (idx === colIndex) {
+                    h.classList.remove("asc", "desc");
+                    h.classList.add(isAscending ? "asc" : "desc");
+                } else {
+                    h.classList.remove("asc", "desc");
+                }
+            });
+
+            rows.sort((rowA, rowB) => {
+                const cellA = rowA.children[colIndex];
+                const cellB = rowB.children[colIndex];
+
+                let valA = cellA.getAttribute("data-sort") || cellA.textContent.trim();
+                let valB = cellB.getAttribute("data-sort") || cellB.textContent.trim();
+
+                if (type === "number") {
+                    valA = parseFloat(valA) || 0;
+                    valB = parseFloat(valB) || 0;
+                } else {
+                    valA = valA.toLowerCase();
+                    valB = valB.toLowerCase();
+                }
+
+                if (valA < valB) return isAscending ? -1 : 1;
+                if (valA > valB) return isAscending ? 1 : -1;
+                return 0;
+            });
+
+            tbody.innerHTML = "";
+            if (parentRow) tbody.appendChild(parentRow);
+            rows.forEach(row => tbody.appendChild(row));
+        }
+    </script>
 </body>
 </html>
